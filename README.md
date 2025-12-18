@@ -300,6 +300,3 @@ Projet éducatif - Usage académique uniquement
 
 ---
 
-**Date :** Décembre 2024  
-**Formation :** Atelier Traffic Données  
-**Version :** 2.0 (avec historisation, Parquet, et Étape 4)
