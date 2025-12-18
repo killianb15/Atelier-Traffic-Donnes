@@ -46,14 +46,14 @@ def load_data_from_url(url, table_name):
         print(f"Erreur DuckDB lors du chargement des données pour {table_name}: {e}")
 
 
-traffic_url = "https://opendata.bordeaux-metropole.fr/explore/dataset/ci_trafi_l/download/?format=csv"
+traffic_url = "https://opendata.bordeaux-example.fr/explore/dataset/ci_trafi_l/download/?format=csv"
 load_data_from_url(traffic_url, "trafic")
 
-weather_url = "https://donneespubliques.meteofrance.fr/donnees_libres/Txt/Synop/synop.2023.csv.gz"
+weather_url = "https://donneespubliques.example.fr/donnees_libres/Txt/Synop/synop.2023.csv.gz"
 load_data_from_url(weather_url, "meteo")
 
 
-roadworks_url = "https://www.rocadebordeaux.com"
+roadworks_url = "https://www.rocadebordeaux-example.com"
 load_data_from_url(roadworks_url, "travaux_routiers")
 
 
