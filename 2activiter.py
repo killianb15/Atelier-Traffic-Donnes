@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import duckdb
 from pathlib import Path
+from datetime import datetime
 
 # Créer le dossier data s'il n'existe pas
 output_dir = Path("data")
@@ -47,30 +48,37 @@ def extract_data(content):
 
 # Fonction pour stocker les données dans DuckDB
 def store_in_duckdb(data):
-    db_path = output_dir / 'scraping.db'
+    # Ajouter la date pour l'historisation
+    date_str = datetime.now().strftime('%Y%m%d_%H%M%S')
+    db_path = output_dir / f'scraping_{date_str}.db'
     conn = duckdb.connect(str(db_path))
     
-    # Créer la table si elle n'existe pas
+    # Créer la table si elle n'existe pas avec une colonne d'import
+    import_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     conn.execute("""
         CREATE TABLE IF NOT EXISTS events (
             link VARCHAR,
             title VARCHAR,
             date VARCHAR,
-            image_src VARCHAR
+            image_src VARCHAR,
+            date_import VARCHAR
         )
     """)
     
-    # Insérer les données
+    # Insérer les données avec la date d'import
+    import_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    data_with_import = [(link, title, date, image_src, import_date) for link, title, date, image_src in data]
     conn.executemany("""
-        INSERT INTO events (link, title, date, image_src)
-        VALUES (?, ?, ?, ?)
-    """, data)
+        INSERT INTO events (link, title, date, image_src, date_import)
+        VALUES (?, ?, ?, ?, ?)
+    """, data_with_import)
     
     conn.close()
+    print(f"Base de données créée: {db_path}")
 
 
-def display_data_from_duckdb():
-    db_path = output_dir / 'scraping.db'
+def display_data_from_duckdb(db_filename):
+    db_path = output_dir / db_filename
     conn = duckdb.connect(str(db_path))
     result = conn.execute("SELECT * FROM events ;").fetchall()
     for row in result:
