@@ -3,12 +3,15 @@ import requests
 import os
 import tempfile
 from pathlib import Path
+from datetime import datetime
 
 
 output_dir = Path("data")
 output_dir.mkdir(parents=True, exist_ok=True)
 
-db_name = output_dir / 'rocade_bordeaux.db'
+# Ajouter la date pour l'historisation
+date_str = datetime.now().strftime('%Y%m%d_%H%M%S')
+db_name = output_dir / f'rocade_bordeaux_{date_str}.db'
 
 
 if os.path.exists(db_name):
@@ -28,9 +31,13 @@ def load_data_from_url(url, table_name):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmpfile:
             tmpfile.write(response.content)
             tmpfile_path = tmpfile.name
+        
+        # Ajouter une colonne de date d'import pour l'historisation
+        import_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         conn.execute(f"""
             CREATE OR REPLACE TABLE {table_name} AS
-            SELECT * FROM read_csv_auto('{tmpfile_path}', normalize_names=True, ignore_errors=true)
+            SELECT *, '{import_date}' AS date_import
+            FROM read_csv_auto('{tmpfile_path}', normalize_names=True, ignore_errors=true)
         """)
         print(f"Données chargées avec succès dans la table '{table_name}'.")
     except requests.RequestException as e:
