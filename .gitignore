@@ -1,0 +1,43 @@
+# Fichiers de données ingérés
+data/*.db
+data/*.parquet
+data/*.csv
+data/*.gz
+
+# Conserver la structure du dossier data
+!data/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environnements virtuels
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Fichiers temporaires
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
