@@ -9,7 +9,7 @@ output_dir = Path("data")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # URL de la page à scraper
-url = "https://www.bordeaux-tourisme.com/agenda.html"
+url = "https://www.bordeaux-example.com/agenda.html"
 
 # Fonction pour récupérer le contenu de la page
 def get_page_content(url):
