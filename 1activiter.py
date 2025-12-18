@@ -49,7 +49,9 @@ def load_data_from_url(url, table_name):
 traffic_url = "https://opendata.bordeaux-example.fr/explore/dataset/ci_trafi_l/download/?format=csv"
 load_data_from_url(traffic_url, "trafic")
 
-weather_url = "https://donneespubliques.example.fr/donnees_libres/Txt/Synop/synop.2023.csv.gz"
+# API Open-Meteo (gratuite, sans clé) - Données météo des 7 derniers jours pour Bordeaux
+# Coordonnées de Bordeaux : latitude=44.84, longitude=-0.58
+weather_url = "https://archive-api.open-meteo.com/v1/archive?latitude=44.84&longitude=-0.58&start_date=2024-12-11&end_date=2024-12-18&hourly=temperature_2m,precipitation,wind_speed_10m,relative_humidity_2m&format=csv"
 load_data_from_url(weather_url, "meteo")
 
 
